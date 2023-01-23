@@ -1,6 +1,8 @@
 from moto import mock_sts, mock_cloudformation
 import boto3
 
+from mock_test_sessions import logic
+
 
 EXAMPLE_AMI_ID = "ami-12c6146b"
 cf_template_body = {
@@ -29,12 +31,8 @@ def test_a_test_for_moto():
         Capabilities=["CAPABILITY_IAM"],
         ChangeSetName="test",
     )
-    print(response_create)
+    change_set_name = response_create["Id"]
 
-    #event_executechangeset["requestParameters"]["changeSetName"] = response_create["Id"]
-
-    # I added here the mock part I mention, ignored for now
-
-    # We test something here. Ignored for privacy purposes. That calls the other piece of code.
-
-    # We assert things here
+    sess = boto3.Session()
+    name = logic.get_stackname_from_changeset(sess, change_set_name)
+    assert name == "test"
