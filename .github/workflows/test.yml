@@ -24,7 +24,7 @@ jobs:
         python -m pip install --upgrade pip
     - name: Install project dependencies
       run: |
-        pip install moto[cloudformation,sts]
+        pip install pytest moto[cloudformation,sts]
     - name: Test with pytest
       run: |
         pytest tests
